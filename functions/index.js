@@ -73,7 +73,7 @@ app.get("/actresses", (req, res) => {
     });
 });
 
-app.get("/actress/:artistId", (req, res) => {
+app.get("/actresses/:artistId", (req, res) => {
   let artistData = {};
   db.doc(`/actresses/${req.params.artistId}`)
     .get()
