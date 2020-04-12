@@ -5,6 +5,9 @@ const config = require("./config");
 
 admin.initializeApp();
 
+const cors = require("cors");
+app.use(cors());
+
 const db = admin.firestore();
 
 const firebase = require("firebase");
@@ -146,5 +149,7 @@ app.get("/about", (req, res) => {
       res.status(500).json({ error: err.code });
     });
 });
+
+app.get("/main", (req, res) => {});
 
 exports.api = functions.region("europe-west1").https.onRequest(app);
