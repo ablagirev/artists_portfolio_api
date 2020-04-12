@@ -26,7 +26,7 @@ app.get("/actors", (req, res) => {
           photo: doc.data().photo.main,
         });
       });
-      return res.json(actors);
+      return res.json({ rows: actors, total: actors.length });
     })
     .catch((err) => {
       console.error(err);
@@ -66,10 +66,11 @@ app.get("/actresses", (req, res) => {
           photo: doc.data().photo.main,
         });
       });
-      return res.json(actresses);
+      return res.json({ rows: actresses, total: actresses.length });
     })
     .catch((err) => {
       console.error(err);
+      res.status(500).json({ error: err.code });
     });
 });
 
@@ -83,6 +84,62 @@ app.get("/actresses/:artistId", (req, res) => {
       }
       artistData = doc.data();
       return res.json(artistData);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ error: err.code });
+    });
+});
+
+app.get("/header", (req, res) => {
+  admin
+    .firestore()
+    .collection("header")
+    .get()
+    .then((data) => {
+      let header = {};
+      data.forEach((doc) => {
+        const objKey = Object.keys(doc.data())[0];
+        header[objKey] = doc.data()[objKey];
+      });
+      return res.json({ data: header });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ error: err.code });
+    });
+});
+
+app.get("/footer", (req, res) => {
+  admin
+    .firestore()
+    .collection("footer")
+    .get()
+    .then((data) => {
+      let footer = {};
+      data.forEach((doc) => {
+        const objKey = Object.keys(doc.data())[0];
+        footer[objKey] = doc.data()[objKey];
+      });
+      return res.json({ data: footer });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ error: err.code });
+    });
+});
+
+app.get("/about", (req, res) => {
+  admin
+    .firestore()
+    .collection("about")
+    .get()
+    .then((data) => {
+      let about = {};
+      data.forEach((doc) => {
+        about[doc.id] = doc.data();
+      });
+      return res.json({ data: about });
     })
     .catch((err) => {
       console.error(err);
