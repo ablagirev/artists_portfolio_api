@@ -105,7 +105,7 @@ app.get("/header", (req, res) => {
         const objKey = Object.keys(doc.data())[0];
         header[objKey] = doc.data()[objKey];
       });
-      return res.json({ data: header });
+      return res.json(header);
     })
     .catch((err) => {
       console.error(err);
@@ -124,7 +124,7 @@ app.get("/footer", (req, res) => {
         const objKey = Object.keys(doc.data())[0];
         footer[objKey] = doc.data()[objKey];
       });
-      return res.json({ data: footer });
+      return res.json(footer);
     })
     .catch((err) => {
       console.error(err);
@@ -142,7 +142,7 @@ app.get("/about", (req, res) => {
       data.forEach((doc) => {
         about[doc.id] = doc.data();
       });
-      return res.json({ data: about });
+      return res.json(about);
     })
     .catch((err) => {
       console.error(err);
@@ -150,6 +150,8 @@ app.get("/about", (req, res) => {
     });
 });
 
-app.get("/main", (req, res) => {});
+// app.get("/main", (req, res) => {
+//   admin.storage().bucket();
+// });
 
 exports.api = functions.region("europe-west1").https.onRequest(app);
