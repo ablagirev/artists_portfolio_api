@@ -150,8 +150,27 @@ app.get("/about", (req, res) => {
     });
 });
 
-// app.get("/main", (req, res) => {
-//   admin.storage().bucket();
-// });
+const randomPhoto = (arr) => {
+  return arr[Math.floor(Math.random() * arr.length)];
+};
+
+app.get("/main/:photos", (req, res) => {
+  let menPhotos = [];
+  let womenPhotos = [];
+  db.doc(`/main/${req.params.photos}`)
+    .get()
+    .then((doc) => {
+      manPhoto = randomPhoto(doc.data().men);
+      womanPhoto = randomPhoto(doc.data().women);
+      return res.json({
+        men: { picture: manPhoto, title: "Актёры" },
+        women: { picture: womanPhoto, title: "Актрисы" },
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ error: err.code });
+    });
+});
 
 exports.api = functions.region("europe-west1").https.onRequest(app);
