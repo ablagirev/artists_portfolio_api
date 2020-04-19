@@ -154,18 +154,26 @@ const randomPhoto = (arr) => {
   return arr[Math.floor(Math.random() * arr.length)];
 };
 
-app.get("/main/:photos", (req, res) => {
-  let menPhotos = [];
-  let womenPhotos = [];
-  db.doc(`/main/${req.params.photos}`)
+app.get("/main", (req, res) => {
+  admin
+    .firestore()
+    .collection("main")
     .get()
-    .then((doc) => {
-      manPhoto = randomPhoto(doc.data().men);
-      womanPhoto = randomPhoto(doc.data().women);
-      return res.json({
-        men: { picture: manPhoto, title: "Актёры" },
-        women: { picture: womanPhoto, title: "Актрисы" },
+    .then((data) => {
+      let main = {};
+      data.forEach((doc) => {
+        if (doc.id === "photos") {
+          manPhoto = randomPhoto(doc.data().men);
+          womanPhoto = randomPhoto(doc.data().women);
+          main[doc.id] = {
+            men: { picture: manPhoto, title: "Актёры" },
+            women: { picture: womanPhoto, title: "Актрисы" },
+          };
+        } else {
+          main[doc.id] = doc.data();
+        }
       });
+      return res.json(main);
     })
     .catch((err) => {
       console.error(err);
