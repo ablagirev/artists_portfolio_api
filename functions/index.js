@@ -12,6 +12,7 @@ const db = admin.firestore();
 
 const firebase = require("firebase");
 firebase.initializeApp(config);
+firebase.analytics();
 
 app.get("/actors", (req, res) => {
   admin
