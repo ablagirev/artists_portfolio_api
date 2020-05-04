@@ -13,6 +13,10 @@ const db = admin.firestore();
 const firebase = require("firebase");
 firebase.initializeApp(config);
 
+const sortArtistsBySort = (artists) => {
+  return artists.sort((current, next) => current.sort - next.sort);
+};
+
 app.get("/actors", (req, res) => {
   admin
     .firestore()
@@ -27,9 +31,13 @@ app.get("/actors", (req, res) => {
           lastName: doc.data().lastName,
           age: doc.data().age.value,
           photo: doc.data().photo.main,
+          sort: doc.data().sort,
         });
       });
-      return res.json({ rows: actors, total: actors.length });
+      return res.json({
+        rows: sortArtistsBySort(sortedActors),
+        total: sortedActors.length,
+      });
     })
     .catch((err) => {
       console.error(err);
@@ -69,7 +77,10 @@ app.get("/actresses", (req, res) => {
           photo: doc.data().photo.main,
         });
       });
-      return res.json({ rows: actresses, total: actresses.length });
+      return res.json({
+        rows: sortArtistsBySort(actresses),
+        total: actresses.length,
+      });
     })
     .catch((err) => {
       console.error(err);
