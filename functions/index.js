@@ -35,8 +35,8 @@ app.get("/actors", (req, res) => {
         });
       });
       return res.json({
-        rows: sortArtistsBySort(sortedActors),
-        total: sortedActors.length,
+        rows: sortArtistsBySort(actors),
+        total: actors.length,
       });
     })
     .catch((err) => {
