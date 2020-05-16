@@ -29,7 +29,7 @@ app.get("/actors", (req, res) => {
           id: doc.data().id,
           firstName: doc.data().firstName,
           lastName: doc.data().lastName,
-          age: doc.data().age.value,
+          birth: doc.data().age.birth,
           photo: doc.data().photo.main,
           sort: doc.data().sort,
         });
@@ -73,7 +73,7 @@ app.get("/actresses", (req, res) => {
           id: doc.data().id,
           firstName: doc.data().firstName,
           lastName: doc.data().lastName,
-          age: doc.data().age.value,
+          birth: doc.data().age.birth,
           photo: doc.data().photo.main,
         });
       });
