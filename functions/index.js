@@ -75,6 +75,7 @@ app.get("/actresses", (req, res) => {
           lastName: doc.data().lastName,
           birth: doc.data().age.birth,
           photo: doc.data().photo.main,
+          sort: doc.data().sort,
         });
       });
       return res.json({
